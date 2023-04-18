@@ -1,20 +1,35 @@
-import React, {useEffect, useState} from "react"
+import React, {useEffect, useState, createContext, useContext} from "react"
 import {Route, Switch, useHistory} from "react-router-dom"
 
-import NavBar from "./NavBar"
 import Header from "./Header"
-import Profile from "./Profile"
-import Community from "./Community"
-import GameStore from "./GameStore"
-import GameLibrary from "./GameLibrary"
 import Authentication from "./Authentication"
+import StudentList from "./StudentList"
+import Profile from "./Profile"
+
+import QuestionList from "./QuestionList"
+import PostList from "./PostList"
+
+import Home from "./Home"
+import NavBar from "./NavBar"
+
+import SlideshowMS from "./SlideshowMS"
+import SlideshowPD from "./SlideshowPD"
+import SlideshowCVA from "./SlideshowCVA"
+import SlideshowSCI from "./SlideshowSCI"
+import SlideshowTBI from "./SlideshowTBI"
+import FacultyList from "./FacultyList"
+
+import PostsMS from "./PostsMS"
+
+export const Context = React.createContext();
 
 export default function App(){
+  const [diagnoses, setDiagnoses] = useState([])
+  const [users, setUsers] = useState([])
+  const [questions, setQuestions] = useState([])
+  const [posts, setPosts] = useState([])
   const [user, setUser] = useState(null)
-  const [games, setGames] = useState([])
-  const [users, setUsers] = useState(null)
-  const [searchGenre, setSearchGenre] = useState("")
-  const [searchTitle, setSearchTitle] = useState("")
+  
 
   useEffect(() => {
     fetchUser()
@@ -25,11 +40,34 @@ export default function App(){
   }, [])
 
   useEffect(() => {
-    fetch("/games")
+    fetch("http://localhost:5555/diagnoses")
       .then(r => r.json())
       .then(data => {
-        setGames(data)})
+        setDiagnoses(data)})
   }, [])
+
+  
+  useEffect(() => {
+    fetch("http://localhost:5555/posts")
+      .then(r => r.json())
+      .then(data => {
+        setPosts(data)})
+  }, [])
+
+  
+  useEffect(() => {
+    fetch("http://localhost:5555/questions")
+      .then(r => r.json())
+      .then(data => {
+        setQuestions(data)})
+  }, [])
+
+  const updateUsers = () => {
+    fetch("http://localhost:5555/users", )
+    .then(r => r.json())
+    .then(data => {
+      setUsers(data)})
+  }
 
   const fetchUser = () => {
     fetch('/authorized')
@@ -42,41 +80,72 @@ export default function App(){
     })
   }
 
-  const updateUsers = () => {
-    fetch("/users", )
-    .then(r => r.json())
-    .then(data => {
-      setUsers(data)})
-  }
-
   const updateUser = user => setUser(user)
 
+
+
+
+
+
   return(
+
+    
     <main className="app">
       <Header updateUser={updateUser} user={user}/>
-      <NavBar user={user}/>
+
+      <Context.Provider value ={[user, setUser]}>
+        <NavBar updateUser={updateUser}/>
+        {/* <h1>{user ? "Signed in" : "Signed out"}</h1> */}
+      </Context.Provider>
+      
       <Switch>
-        <Route exact path="/">
-          {useHistory().push('/store')}
+
+        {/* <Route exact path="/">
+          {useHistory().push('/home')}
         </Route>
-        <Route path="/store">
-          <GameStore games={games} searchGenre={searchGenre} onChangeGenre={setSearchGenre} searchTitle={searchTitle} onChangedTitle={setSearchTitle} user={user}/>
+         */}
+        <Route exact path="/home">
+          <Home updateUser={updateUser} user={user}/>
         </Route>
-        {user ? <Route exact path="/library">
-          <GameLibrary user={user}/>
-        </Route> : null}
-        <Route path="/community">
-          {users ? <Community users = {users}/> : null}
+
+        <Route exact path="/slideshows">
+          <SlideshowMS />
+          <SlideshowCVA />
+          <SlideshowTBI />
+          <SlideshowSCI />
+          <SlideshowPD />
         </Route>
+
+
+
         <Route exact path="/login">
           <Authentication updateUser={updateUser} updateUsers={updateUsers}/>
         </Route>
+
+        {user && user.class_of == "professor" ? <Route exact path="/questions">
+          <QuestionList questions={questions}/>
+        </Route> : null}
+
+        {user ? <Route exact path="/posts">
+          <PostList posts={posts}/>
+        </Route> : null}
+
+        {user ? <Route exact path="/students">
+          <StudentList students = {users} updateUsers={updateUsers}/>
+        </Route> : null}
+
+        {user ? <Route exact path="/faculty">
+          <FacultyList professors = {users} updateUsers={updateUsers} user={user}/>
+        </Route> : null}
+
         {user ? <Route exact path="/profile">
           <Profile user={user} updateUsers={updateUsers}/>
         </Route> : null}
+
         <Route path="*">
             <h1>404 not found</h1>
         </Route> 
+
       </Switch>
     </main>
   )

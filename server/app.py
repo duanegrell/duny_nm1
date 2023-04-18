@@ -5,7 +5,7 @@ from flask_restful import Api, Resource
 from werkzeug.exceptions import NotFound, Unauthorized
 from flask_cors import CORS
 
-from models import db, User, Game, Review, UserGame
+from models import db, User, Diagnosis, Question, StudentResponse, Post, Powerpoint
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
@@ -17,19 +17,21 @@ app.config['SECRET_KEY'] = "abcd"
 api = Api(app)
 db.init_app(app)
 migrate = Migrate(app, db)
+CORS(app)
 
 #/users
 class Users(Resource):
     #GET
     def get(self):
-        return make_response([user.to_dict(rules=('-user_games',)) for user in User.query.all()], 200)
-    
+        return make_response([user.to_dict() for user in User.query.all()], 31)
+
     #POST
     def post(self):
         try:
             r_json = request.get_json()
             new_user = User(
-                name = r_json['name'],
+                first_name = r_json['first_name'],
+                last_name = r_json['last_name'],
                 email = r_json['email'],
                 password = r_json['password']
             )
@@ -82,9 +84,8 @@ class UserById(Resource):
         if not user:
             return make_response({'error': 'User Not Found!'}, 404)
 
-        [db.session.delete(review) for review in Review.query.filter(Review.user_id == user.id).all()]
-        [db.session.delete(usergame) for usergame in UserGame.query.filter(UserGame.user_id == user.id).all()]
-
+        [db.session.delete(post) for post in Posts.query.filter(Posts.user_id == user.id).all()]
+     
         db.session.delete(user)
         db.session.commit()
 
@@ -92,181 +93,160 @@ class UserById(Resource):
 
 api.add_resource(UserById, '/users/<int:id>')
 
-#/games
-class Games(Resource):
+#/diagnoses
+class Diagnoses(Resource):
     #GET
     def get(self):
-        return make_response(jsonify([game.to_dict() for game in Game.query.all()]), 200)
+        return make_response(jsonify([diagnosis.to_dict() for diagnosis in Diagnosis.query.all()]), 5)
 
     #POST
     def post(self):
         try:
             r_json = request.get_json()
-            new_game = Game(
-                img = r_json['image'],
-                price = r_json['price'],
-                genre = r_json['genre'],
-                title = r_json['title'],
-                studio = r_json['studio'],
-                description = r_json['description']
+            new_diagnosis = Diagnosis(
+                name = r_json['name'],
+                background = r_json['background'],
+                presentation = r_json['presentation'],
+                medication = r_json['medication'],
+                imaging = r_json['imaging'],
+                intevention = r_json['intevention'],
+                case = r_json['intevention']
             )
 
-            db.session.add(new_game)
+            db.session.add(new_diagnosis)
             db.session.commit()
 
-            return make_response(jsonify(new_game.to_dict()), 201)
+            return make_response(jsonify(new_diagnosis.to_dict()), 201)
         except ValueError as e:
             return make_response({'error': e.__str__()}, 400)
 
-api.add_resource(Games, '/games')
+api.add_resource(Diagnoses, '/diagnoses')
 
-#/games/:id
-class GameById(Resource):
+#/diagnosis/:id
+class DiagnosisbyID(Resource):
     #GET
     def get(self, id):
-        return make_response(Game.query.filter_by(id = id).first().to_dict(), 200)
+        return make_response(Diagnosis.query.filter_by(id = id).first().to_dict(), 5)
 
     #PATCH
     def patch(self, id):
-        game = Game.query.filter_by(id = id).first()
+        diagnosis = Diagnoses.query.filter_by(id = id).first()
 
-        if not game:
-            return make_response({ 'error': 'Game Not Found!'}, 404)
+        if not diagnosis:
+            return make_response({ 'error': 'Diagnosis Not Found!'}, 404)
 
         try:
             r_json = request.get_json()
             for key in r_json:
-                setattr(game, key, r_json[key])
+                setattr(diagnosis, key, r_json[key])
         
-            db.session.add(game)
+            db.session.add(diagnosis)
             db.session.commit()
 
-            return make_response(game.to_dict(), 200)
+            return make_response(diagnosis.to_dict(), 200)
         except ValueError as e:
             return make_response({'error': e.__str__()}, 400)
 
     #DELETE
     def delete(self, id):
-        game = Game.query.filter_by(id = id).first()
+        game = Diagnosis.query.filter_by(id = id).first()
 
         if not game:
             return make_response({'error': 'Game Not Found!'}, 404)
 
-        [db.session.delete(review) for review in Review.query.filter(Review.game_id == game.id).all()]
-        [db.session.delete(usergame) for usergame in UserGame.query.filter(UserGame.game_id == game.id).all()]
+        [db.session.delete(post) for post in Post.query.filter(Post.game_id == game.id).all()]
         
         db.session.delete(game)
         db.session.commit()
 
         return make_response('', 204)
 
-api.add_resource(GameById, '/games/<int:id>')
+api.add_resource(DiagnosisbyID, '/diagnosis/<int:id>')
 
-#/reviews
-class Reviews(Resource):
+#/posts
+class Posts(Resource):
+
+    #GET
+    def get(self):
+        return make_response([post.to_dict() for post in Post.query.all()], 50)
+
     #POST
     def post(self):
         try:
             r_json = request.get_json()
-            new_review = Review(
-                rating = r_json['rating'],
-                description = r_json['description'],
-                game_id = r_json['game_id'],
+            new_post = Post(
+                topic = r_json['topic'],
+                title = r_json['title'],
+                body = r_json['body'],
                 user_id = r_json['user_id']
             )
 
-            user = User.query.filter(User.id == new_review.user_id).first()
-            game = Game.query.filter(Game.id == new_review.game_id).first()
+            user = User.query.filter(User.id == new_post.user_id).first()
+            post = Post.query.filter(Post.id == new_post.game_id).first()
 
-            if not user or not game:
+            if not user or not post:
                 return make_response({'error': 'Invalid Game or User ID!'}, 400)
 
-            db.session.add(new_review)
+            db.session.add(new_post)
             db.session.commit()
 
-            return make_response(jsonify(new_review.to_dict()), 201)
+            return make_response(jsonify(new_post.to_dict()), 201)
         except ValueError as e:
             return make_response({'error': e.__str__()}, 400)
 
-api.add_resource(Reviews, '/reviews')
+api.add_resource(Posts, '/posts')
 
-#/reviews/:id
-class ReviewById(Resource):
+#/posts/:id
+class PostsById(Resource):
+
+    #GET
+    def get(self, id):
+        return make_response(Post.query.filter_by(id = id).first().to_dict(), 5)
+
     #DELETE
     def delete(self, id):
-        review = Review.query.filter_by(id = id).first()
+        post = Post.query.filter_by(id = id).first()
 
-        if not review:
-            return make_response({'error': 'Review Not Found!'}, 404)
+        if not post:
+            return make_response({'error': 'Post Not Found!'}, 404)
         
-        db.session.delete(review)
+        db.session.delete(post)
         db.session.commit()
 
         return make_response('', 204)
 
-api.add_resource(ReviewById, '/reviews/<int:id>')
+api.add_resource(PostsById, '/posts/<int:id>')
 
-#/usergames
-class UserGames(Resource):
-    #POST
-    def post(self):
-        try:
-            r_json = request.get_json()
-            new_usergame = UserGame(
-                game_id = r_json['game_id'],
-                user_id = r_json['user_id']
-            )
 
-            if not User.query.filter(User.id == new_usergame.user_id).first() or not Game.query.filter(Game.id == new_usergame.game_id).first():
-                return make_response({'error': 'Invalid Game or User ID!'}, 400)
+#/questions
+class Questions(Resource):
+    #GET
+    def get(self):
+            return make_response(jsonify([question.to_dict() for question in Question.query.all()]), 50)
 
-            db.session.add(new_usergame)
-            db.session.commit()
+api.add_resource(Questions, '/questions')
 
-            return make_response(jsonify(new_usergame.to_dict()), 201)
-        except ValueError as e:
-            return make_response({'error': e.__str__()}, 400)
+#/powerpoints
+class Powerpoints(Resource):
+    #GET
+    def get(self):
+            return make_response(jsonify([powerpoint.to_dict() for powerpoint in Powerpoint.query.all()]))
 
-api.add_resource(UserGames, '/usergames')
+api.add_resource(Powerpoints, '/powerpoints')
 
-#/usergames/:id
-class UserGameById(Resource):
-    #PATCH
-    def patch(self, id):
-        usergame = UserGame.query.filter_by(id = id).first()
 
-        if not usergame:
-            return make_response({ 'error': 'UserGame Not Found!'}, 404)
+#/student responses
+class StudentResponses(Resource):
+    #GET
+    def get(self):
+            return make_response(jsonify([student_response.to_dict() for student_response in StudentResponse.query.all()]), 50)
 
-        try:
-            r_json = request.get_json()
-            for key in r_json:
-                setattr(usergame, key, r_json[key])
-        
-            db.session.add(usergame)
-            db.session.commit()
+api.add_resource(StudentResponses, '/studentresponses')
 
-            return make_response(usergame.to_dict(), 200)
-        except ValueError as e:
-            return make_response({'error': e.__str__()}, 400)
-
-    #DELETE
-    def delete(self, id):
-        usergame = UserGame.query.filter_by(id = id).first()
-
-        if not usergame:
-            return make_response({'error': 'UserGame Not Found!'}, 404)
-        
-        db.session.delete(usergame)
-        db.session.commit()
-
-        return make_response('', 204)
-    
-api.add_resource(UserGameById, '/usergames/<int:id>')
-
+#Login
 class Login(Resource):
     def post(self):
-        user = User.query.filter_by(name=request.get_json()['name']).first()
+        user = User.query.filter_by(first_name=request.get_json()['first_name']).first()
         
         if not user:
             return make_response({'error': 'Invalid Username/Password'}, 403)
@@ -279,6 +259,8 @@ class Login(Resource):
         return response
 api.add_resource(Login, '/login')
 
+
+#Logout
 class Logout(Resource):
     def delete(self):
         session['user_id'] = None
@@ -287,6 +269,8 @@ class Logout(Resource):
 
 api.add_resource(Logout, '/logout')
 
+
+#Authorization
 class AuthorizedSession(Resource):
     def get(self):
         user= User.query.filter_by(id=session.get('user_id')).first()

@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { useFormik } from "formik"
 import * as yup from "yup"
 
-export default function Authentication({updateUser, updateUsers}) {
+export default function StudentEdit({updateUser, updateUsers}) {
     const [signUp, setSignUp] = useState(false)
     const history = useHistory()
 
@@ -13,6 +13,9 @@ export default function Authentication({updateUser, updateUsers}) {
     const formSchema = yup.object().shape({
         first_name: yup.string().required("FIRST NAME REQUIRED"),
         last_name: yup.string().required("LAST NAME REQUIRED"),
+        image: yup.string().image(),
+        bio: yup.string().bio(),
+        class_of: yup.string().class_of(),
         email: yup.string().email(),
         password: yup.string().required("PASSWORD REQUIRED")
     })
@@ -22,12 +25,15 @@ export default function Authentication({updateUser, updateUsers}) {
         initialValues:{
             first_name:"",
             last_name:"",
+            image:"",
+            bio:"",
+            class_of:"",
             email:"",
             password:""
         },
         validationSchema: formSchema,
         onSubmit: (values) => {
-          if (signUp){
+
             fetch('/users', { 
                 method: "POST",
                 headers: {
@@ -41,21 +47,6 @@ export default function Authentication({updateUser, updateUsers}) {
                 updateUser(user)
                 history.push('/profile')
             })
-          }
-          else {
-            fetch('/login', {
-                method: "POST",
-                headers: {
-                    "Content-Type":"application/json"                    
-                },
-                body: JSON.stringify(values)
-            })
-            .then(r => r.json())
-            .then(user => {
-                updateUser(user)
-                history.push('/profile')
-            })
-          }
 
         }
     })
@@ -64,51 +55,47 @@ export default function Authentication({updateUser, updateUsers}) {
     <> 
       {Object.values(formik.errors).map(error => <h2 style={{color:'red'}}> {error}</h2>)}
       {/* <h2>Please Log in!</h2> */}
-      <h2>{signUp?'Log in':'Register Student?'}</h2>
+      <h2>{'Register Student'}</h2>
       <button onClick={handleClick}>{signUp?'Log In!':'Register Student!'}</button>
       <Form onSubmit={formik.handleSubmit}>
+
         <label>
-          First Name
+            First Name
         </label>
         <input type='text' name='first_name' value={formik.values.first_name} onChange={formik.handleChange} />
+
         <label>
-          Last Name
+            Last Name
         </label>
-        <input type='text' name='last_name' value={formik.values.last_name} onChange={formik.handleChange} />        
-        {signUp && (
-          <>
-          <label>
-            Email
-          </label>
-          <input type='text' name='email' value={formik.values.email} onChange={formik.handleChange} />
-          </>
-        )}
-        <>
+        <input type='text' name='last_name' value={formik.values.last_name} onChange={formik.handleChange} />    
+
         <label>
-          Password
+            Image
+        </label>
+        <input type='text' name='image' value={formik.values.image} onChange={formik.handleChange} />
+
+        <label>
+            Bio
+        </label>
+        <input type='text' name='bio' value={formik.values.bio} onChange={formik.handleChange} />
+
+        <label>
+            Class of:
+        </label>
+        <input type='text' name='class_of' value={formik.values.class_of} onChange={formik.handleChange} />
+
+        <label>
+            Email
+        </label>
+        <input type='text' name='email' value={formik.values.email} onChange={formik.handleChange} />
+        
+        <label>
+            Password
         </label>
         <input type='text' name='password' value={formik.values.password} onChange={formik.handleChange} />
-        </>
-        <input type='submit' value={signUp?'Register Student':'Log In!'} onSubmit={Object.values(formik.errors).map(error => <h2 style={{color:'red'}}> {error}</h2>)}/>
+
+        <input type='submit' value={'Register Student'} onSubmit={Object.values(formik.errors).map(error => <h2 style={{color:'red'}}> {error}</h2>)}/>
       </Form>
     </>
   )
 }
-
-export const Form = styled.form`
-display:flex;
-flex-direction:column;
-width: 400px;
-margin:auto;
-font-family:Arial;
-font-size:30px;
-input[type=submit]{
-  background-color:#42ddf5;
-  color: white;
-  height:40px;
-  font-family:Arial;
-  font-size:30px;
-  margin-top:10px;
-  margin-bottom:10px;
-}
-`

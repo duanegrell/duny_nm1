@@ -1,7 +1,7 @@
 /* Add a black background color to the top navigation */
 .topnav {
     /* background-color: #456847; */
-    background-image: linear-gradient(120DEG, #0087b9, #031538);
+    background-image: linear-gradient(120DEG, #1b3a37, #031538);
     opacity: 100%;
     overflow: hidden;
     border-style: solid;
@@ -40,7 +40,7 @@
   
   /* Add a color to the active/current link */
   .topnav a.active {
-    background-color: #0452aa;
+    background-color: #5ba073;
     color: white;
   }
 
@@ -107,7 +107,7 @@
 
 .header {
   /* background-color: #456847; */
-  background-image: linear-gradient(120DEG, #0087b9, #031538);
+  background-image: linear-gradient(120DEG, #a6b2ad, #031538);
   opacity: 100%;
   overflow: hidden;
   border-style: solid;
@@ -118,7 +118,7 @@
 }
 
 .app {
-  background-image: linear-gradient(120DEG, #00ADEE, #000000); 
+  background-image: linear-gradient(120DEG, #5f957a, #000000); 
 }
 
 .button1{ 
@@ -149,16 +149,16 @@
   }
 }
 
-.home{
-  background-image: linear-gradient(120DEG, #0087b9, #031538);
-}
+/* .home{
+  background-image: linear-gradient(120DEG, #4cad86, #031538);
+} */
 
 .library{
-  background-image: linear-gradient(120DEG, #0087b9, #031538);
+  background-image: linear-gradient(120DEG, #427d5a, #031538);
 }
 
 .store{
-  background-image: linear-gradient(120DEG, #0087b9, #031538);
+  background-image: linear-gradient(120DEG, #3a8559, #031538);
 }
 
 /* .community{
@@ -200,11 +200,11 @@
   grid-template-rows: max-content 250px 1fr;
   position: relative;
   object-position: center;
-  background-color: linear-gradient(120DEG, #0087b9, #031538);
+  background-color: linear-gradient(120DEG, #5da458, #031538);
 }
 
 .cards{
-  background-color: linear-gradient(120DEG, #0087b9, #031538);
+  background-color: linear-gradient(120DEG, #499770, #031538);
   cursor: pointer;
 }
 
@@ -259,7 +259,7 @@
 }
 
 .dropbtn {
-  --c:  #229091; /* the color*/
+  --c:  #229141; /* the color*/
   
   box-shadow: 0 0 0 .1em inset var(--c); 
   --_g: linear-gradient(var(--c) 0 0) no-repeat;

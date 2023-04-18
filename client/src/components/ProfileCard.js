@@ -1,25 +1,18 @@
-import React, {useState} from "react"
-import {useLocation} from "react-router-dom"
+import React from "react";
+import "./Profile.css";
 
-import SubmitForm from "./SubmitForm"
-
-import "./ProfileCard.css"
-
-export default function ProfileCard({user, updateUsers}){
-  const location = useLocation()
-
-  const [edit, setEdit] = useState(false)
-
-  const handleClick = () => setEdit(!edit)
-
-  return(<>{user ?
-    <li className="profile-cards-item">
-      <div className="profile-card">
-        <img src={user.img} alt={user.name} className="profile-card-image"/>
-        <div className="profile-card-title">{user.name}</div>
-        <p className="profile-card-text">Bio: {user.bio}</p>
+function ProfileCard({user}) {
+  return (
+    <div className="profile-container">
+      <div className="profile-img-container">
+        <img className="profile-img" src={user.image} alt="Profile" />
       </div>
-      {location.pathname.length < 10 ? edit ? <SubmitForm user={user} updateUsers={updateUsers}/> : <button onClick={handleClick}>Edit Profile</button> : null}
-    </li>
-  : null}</>)
+      <div className="profile-name">{user.first_name} {user.last_name}</div>
+      <div className="profile-class-year">{user.class_of}</div>
+      <div className="profile-bio">{user.bio}</div>
+      {/* <button className="profile-button">Contact Me</button> */}
+    </div>
+  );
 }
+
+export default ProfileCard;

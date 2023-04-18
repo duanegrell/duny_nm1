@@ -1,0 +1,49 @@
+/* Set the background color and padding */
+.navbar {
+    background-color: #9c7c5e;
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    position: fixed;
+    top: 0;
+    width: 100%;
+  }
+  
+  /* Style the logo */
+  .navbar__logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  /* Style the links */
+  .navbar__links {
+    display: flex;
+    justify-content: center; /* Updated justify-content */
+    align-items: center;
+  }
+  
+  .navbar__links a {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    color: #ffffff;
+    text-decoration: none;
+    margin: 0 0.5rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.5rem;
+  }
+  
+  .navbar__links a:last-child {
+    margin-right: 1rem; /* Added margin to the right side of the last link */
+  }
+  
+  .navbar__links a:hover {
+    background-color: #c5b8a5;
+  }
+  
+  /* Style the active link */
+  .navbar__links a.active {
+    background-color: #c5b8a5;
+  }
+  

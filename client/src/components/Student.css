@@ -1,0 +1,70 @@
+.student-directory {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-auto-rows: 280px;
+    gap: 20px;
+  }
+  
+  .student-entry {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .student-entry:hover {
+    transform: translateY(-10px);
+    box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.3);
+  }
+  
+  .student-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    text-align: center;
+  }
+  
+  .student-image {
+    width: 100%;
+    height: 80%;
+    object-fit: cover;
+    border-radius: 10px 10px 0 0;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .student-image:hover {
+    transform: scale(1.1);
+  }
+  
+  /* CSS variables */
+  :root {
+    --primary-color: #947a56;
+    --secondary-color: #6a3d38;
+  }
+  
+  .student-name {
+    color: var(--primary-color);
+  }
+  
+  .student-entry:hover .student-name {
+    color: var(--secondary-color);
+  }
+  
+  .student-email {
+    font-size: 14px;
+    color: gray;
+    margin-bottom: 10px;
+    text-align: center;
+    transition: color 0.2s ease-in-out;
+  }
+  
+  .student-entry:hover .student-email {
+    color: var(--secondary-color);
+  }
+  
