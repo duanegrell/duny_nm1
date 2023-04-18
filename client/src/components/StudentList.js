@@ -19,6 +19,9 @@ function StudentList( {students}) {
           last_name={student.last_name}
           email={student.email}
           class_of={student.class_of}
+
+          image={student.image}
+          bio={student.bio}
         />
     ))
     

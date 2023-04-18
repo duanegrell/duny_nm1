@@ -31,8 +31,12 @@ class User(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String, default='')
     last_name = db.Column(db.String, default='')
+
     email = db.Column(db.String)
     password = db.Column(db.String)
+
+    image = db.Column(db.String, default = 'https://us.123rf.com/450wm/marlene9/marlene92108/marlene9210800098/173713344-cute-little-african-american-boy-sitting-at-desk.jpg?ver=6')
+    bio = db.Column(db.String, default = 'I am a student')
 
     class_of = db.Column(db.String, default='')
     

@@ -1,0 +1,50 @@
+:root {
+    --primary-color: #a3794d;
+    --secondary-color: #e2e2e2;
+  }
+  
+  .student-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .student {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid var(--secondary-color);
+    border-radius: 5px;
+    width: 500px;
+  }
+  
+  .student-name {
+    font-size: 18px;
+    color: #000;
+  }
+  
+  .student-button:hover {
+    background-color: #846034;
+  }
+  .student-buttons {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  
+  .student-button {
+    margin-right: 10px;
+    padding: 3px 6px;
+    border-radius: 5px;
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .student-button:hover {
+    background-color: #846034;
+  }
+  

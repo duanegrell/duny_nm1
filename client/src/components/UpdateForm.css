@@ -1,0 +1,42 @@
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  label {
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  textarea,
+  input[type="text"],
+  input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+    font-family: sans-serif;
+  }
+  
+  textarea {
+    height: 100px;
+  }
+
+button {
+    display: block; /* make the button a block element */
+    margin: 0 auto; /* center the button horizontally */
+    background-color: black; /* set the background color to black */
+    color: white; /* set the text color to white */
+    border: none; /* remove the button border */
+    border-radius: 4px; /* add some rounding to the button corners */
+    padding: 10px 20px; /* add some padding to the button */
+    font-family: sans-serif; /* set the font family */
+    font-size: 16px; /* set the font size */
+  }
+
+  

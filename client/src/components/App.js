@@ -21,6 +21,9 @@ import FacultyList from "./FacultyList"
 
 import PostsMS from "./PostsMS"
 
+import StudentAdd from "./StudentAdd"
+import StudentEditList from "./StudentEditList"
+
 export const Context = React.createContext();
 
 export default function App(){
@@ -83,10 +86,6 @@ export default function App(){
   const updateUser = user => setUser(user)
 
 
-
-
-
-
   return(
 
     
@@ -140,6 +139,11 @@ export default function App(){
 
         {user ? <Route exact path="/profile">
           <Profile user={user} updateUsers={updateUsers}/>
+        </Route> : null}
+
+        {user && user.class_of == "professor" ? <Route exact path="/editstudents">
+          <StudentAdd updateUsers={updateUsers}/>
+          <StudentEditList students={users}/>
         </Route> : null}
 
         <Route path="*">

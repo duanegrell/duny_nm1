@@ -35,6 +35,7 @@ function NavBar({updateUser}) {
         {user ? <a href="#"><NavLink to="/faculty">Faculty</NavLink></a> : null}
         {user ? <a href="#"><NavLink to="/profile">Profile</NavLink></a> : null}
         {user && user.class_of == "professor" ? <a href="#"><NavLink to="/questions">Questions</NavLink></a> : null}
+        {user && user.class_of == "professor" ? <a href="#"><NavLink to="/editstudents">Edit Students</NavLink></a> : null}
         <a onClick={user ? handleLogout : null} href="#"><NavLink to="/login">{user ? `Logout ${user.first_name}` : 'Login'}</NavLink></a>
       </div >
       {/* <div className="navbar__logo">Logo</div> */}

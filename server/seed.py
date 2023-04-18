@@ -6,7 +6,9 @@ from app import app
 from models import db, User, Diagnosis, Question, StudentResponse, Post, Powerpoint
 
 userTemp = {
-    'passwords': ['password123']
+    'passwords': ['password123'],
+    'bio': ['I am a student'],
+    'image': ['https://us.123rf.com/450wm/marlene9/marlene92109/marlene9210900225/173871687-cute-african-american-girl-reading-book-vector-little-girl-with-book.jpg?ver=6', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSreCl1ywJ_CBb0s4pQMR0uOfC_8txtIKIzGQ&usqp=CAU', 'https://www.clker.com/cliparts/e/f/1/f/1516231039523045374students-thinking-clipart.med.png', 'https://as2.ftcdn.net/v2/jpg/02/80/24/35/1000_F_280243582_nwM6eZ8bn4oJkBSyDZBOIE8fZ77u5Gkj.jpg'],
 }
 
 diagnosesTemp = {
@@ -37,10 +39,12 @@ if __name__ == '__main__':
         print('Creating Users...')
 
         user = User(
-            first_name = 'duane',
-            last_name = 'grell',
+            first_name = 'Duane',
+            last_name = 'Grell',
             email = 'duanegrell@gmail.com',
             password = '123',
+            image = "https://media.istockphoto.com/id/853494192/vector/african-american-professor.jpg?s=612x612&w=0&k=20&c=CT3t0sWXcgUzqi1k6qTOonJ6P_Pn54tHhYuLBqh_Hqs=",
+            bio = "I am a professor",
             class_of = 'professor',
             created_at = datetime(2011, 11, 2)
         )
@@ -50,9 +54,15 @@ if __name__ == '__main__':
             user = User(
                 first_name = f.first_name(),
                 last_name = f.last_name(),
+
                 email = f.email(),
                 password = userTemp['passwords'][randint(0, len(userTemp['passwords'])-1)],
+                
+                image = randint(1, 3) == 1 and 'https://us.123rf.com/450wm/marlene9/marlene92108/marlene9210800098/173713344-cute-little-african-american-boy-sitting-at-desk.jpg?ver=6' or userTemp['image'][randint(0, len(userTemp['image'])-1)],
+                bio = userTemp['bio'][randint(0, len(userTemp['bio'])-1)],
+
                 class_of = randint(2023, 2027),
+
                 created_at = f.date_between(start_date=datetime(2022, 1, 1)),
             )
             db.session.add(user)
