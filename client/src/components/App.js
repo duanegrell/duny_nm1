@@ -135,8 +135,8 @@ export default function App(){
         </Route> : null}
 
         {user ? <Route exact path="/posts">
-          <AddPost user={user} updatePosts={updatePosts}/>
-          <PostList posts={posts}/>
+          {/* <AddPost user={user} updatePosts={updatePosts}/> */}
+          <PostList posts={posts} updatePosts={updatePosts} user={user}/>
         </Route> : null}
 
         {user ? <Route exact path="/students">

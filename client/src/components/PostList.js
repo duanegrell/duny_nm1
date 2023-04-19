@@ -1,8 +1,10 @@
 import React, {useState} from "react";
 import Post from "./Post";
 import SearchTopic from "./SearchTopic";
+import {useLocation} from "react-router-dom"
+import AddPost from "./AddPost";
 
-function PostList( {posts}) {
+function PostList( {posts, updatePosts, user}) {
     
     const [search, setSearch] = useState('')
 
@@ -19,9 +21,17 @@ function PostList( {posts}) {
             body={post.body}
         />
     ))
+
+    const location = useLocation()
+
+    const [edit, setEdit] = useState(false)
+  
+    const handleClick = () => setEdit(!edit)
     
     return (
     <>
+        <p></p>
+        {location.pathname.length < 10 ? edit ? <AddPost user={user} updatePosts={updatePosts}/> : <button onClick={handleClick}>Add Post</button> : null}
         <p></p>
         <SearchTopic setSearch={setSearch} />
         <p></p>
