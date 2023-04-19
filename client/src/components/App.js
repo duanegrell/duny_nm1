@@ -17,12 +17,11 @@ import SlideshowPD from "./SlideshowPD"
 import SlideshowCVA from "./SlideshowCVA"
 import SlideshowSCI from "./SlideshowSCI"
 import SlideshowTBI from "./SlideshowTBI"
+import Syllabus from "./Syllabus"
+
 import FacultyList from "./FacultyList"
-
-import PostsMS from "./PostsMS"
-
 import StudentAdd from "./StudentAdd"
-import StudentEditList from "./StudentEditList"
+import StudentEditCard from "./StudentEditCard"
 
 export const Context = React.createContext();
 
@@ -107,15 +106,17 @@ export default function App(){
           <Home updateUser={updateUser} user={user}/>
         </Route>
 
-        <Route exact path="/slideshows">
+        {user ? <Route exact path="/slideshows">
           <SlideshowMS />
           <SlideshowCVA />
           <SlideshowTBI />
           <SlideshowSCI />
           <SlideshowPD />
+        </Route> : null}
+
+        <Route exact path="/syllabus">
+          <Syllabus/>
         </Route>
-
-
 
         <Route exact path="/login">
           <Authentication updateUser={updateUser} updateUsers={updateUsers}/>
@@ -143,7 +144,7 @@ export default function App(){
 
         {user && user.class_of == "professor" ? <Route exact path="/editstudents">
           <StudentAdd updateUsers={updateUsers}/>
-          <StudentEditList students={users}/>
+          <StudentEditCard users = {users} setUsers={setUsers}/>
         </Route> : null}
 
         <Route path="*">
