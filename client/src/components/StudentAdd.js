@@ -17,7 +17,6 @@ export default function StudentAdd({updateUsers}) {
         password: yup.string().required("PASSWORD REQUIRED")
     })
 
-    
     const formik = useFormik({
         initialValues:{
             first_name:"",

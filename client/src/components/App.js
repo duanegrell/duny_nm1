@@ -22,6 +22,7 @@ import Syllabus from "./Syllabus"
 import FacultyList from "./FacultyList"
 import StudentAdd from "./StudentAdd"
 import StudentEditCard from "./StudentEditCard"
+import AddPost from "./AddPost"
 
 export const Context = React.createContext();
 
@@ -84,6 +85,13 @@ export default function App(){
 
   const updateUser = user => setUser(user)
 
+  //ADDING POSTS
+  const updatePosts = () => {
+    fetch("http://localhost:5555/posts", )
+    .then(r => r.json())
+    .then(data => {
+      setPosts(data)})
+  }
 
   return(
 
@@ -127,6 +135,7 @@ export default function App(){
         </Route> : null}
 
         {user ? <Route exact path="/posts">
+          <AddPost user={user} updatePosts={updatePosts}/>
           <PostList posts={posts}/>
         </Route> : null}
 

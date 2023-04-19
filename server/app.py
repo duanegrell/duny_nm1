@@ -83,8 +83,6 @@ class UserById(Resource):
 
         if not user:
             return make_response({'error': 'User Not Found!'}, 404)
-
-        [db.session.delete(post) for post in Posts.query.filter(Posts.user_id == user.id).all()]
      
         db.session.delete(user)
         db.session.commit()
@@ -149,14 +147,12 @@ class DiagnosisbyID(Resource):
 
     #DELETE
     def delete(self, id):
-        game = Diagnosis.query.filter_by(id = id).first()
+        diagnosis = Diagnosis.query.filter_by(id = id).first()
 
-        if not game:
-            return make_response({'error': 'Game Not Found!'}, 404)
-
-        [db.session.delete(post) for post in Post.query.filter(Post.game_id == game.id).all()]
+        if not diagnosis:
+            return make_response({'error': 'diagnosis Not Found!'}, 404)
         
-        db.session.delete(game)
+        db.session.delete(diagnosis)
         db.session.commit()
 
         return make_response('', 204)
@@ -178,19 +174,14 @@ class Posts(Resource):
                 topic = r_json['topic'],
                 title = r_json['title'],
                 body = r_json['body'],
-                user_id = r_json['user_id']
+                # user_id = r_json['user_id']
             )
-
-            user = User.query.filter(User.id == new_post.user_id).first()
-            post = Post.query.filter(Post.id == new_post.game_id).first()
-
-            if not user or not post:
-                return make_response({'error': 'Invalid Game or User ID!'}, 400)
 
             db.session.add(new_post)
             db.session.commit()
 
             return make_response(jsonify(new_post.to_dict()), 201)
+        
         except ValueError as e:
             return make_response({'error': e.__str__()}, 400)
 
