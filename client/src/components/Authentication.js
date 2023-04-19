@@ -64,8 +64,11 @@ export default function Authentication({updateUser, updateUsers}) {
     <> 
       {Object.values(formik.errors).map(error => <h2 style={{color:'red'}}> {error}</h2>)}
       {/* <h2>Please Log in!</h2> */}
-      <h2>{signUp?'Log in':'Register Student?'}</h2>
-      <button onClick={handleClick}>{signUp?'Log In!':'Register Student!'}</button>
+      {/* <h2>{signUp?'Log in':'Register Student?'}</h2> */}
+      {/* <button onClick={handleClick}>{signUp?'Log In!':'Register Student!'}</button> */}
+      <p></p>
+      <p></p>
+      <p></p>
       <Form onSubmit={formik.handleSubmit}>
         <label>
           First Name

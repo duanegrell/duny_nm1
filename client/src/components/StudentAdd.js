@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { useFormik } from "formik"
 import * as yup from "yup"
 
-export default function StudentAdd({updateUser, updateUsers}) {
+export default function StudentAdd({updateUsers}) {
     const [signUp, setSignUp] = useState(true)
     const history = useHistory()
 
@@ -43,20 +43,20 @@ export default function StudentAdd({updateUser, updateUsers}) {
                 // history.push('/students')
             })
           }
-          else {
-            fetch('/login', {
-                method: "POST",
-                headers: {
-                    "Content-Type":"application/json"                    
-                },
-                body: JSON.stringify(values)
-            })
-            .then(r => r.json())
-            .then(user => {
-                updateUser(user)
-                history.push('/profile')
-            })
-          }
+          // else {
+          //   fetch('/login', {
+          //       method: "POST",
+          //       headers: {
+          //           "Content-Type":"application/json"                    
+          //       },
+          //       body: JSON.stringify(values)
+          //   })
+          //   .then(r => r.json())
+          //   .then(user => {
+          //       updateUser(user)
+          //       history.push('/profile')
+          //   })
+          // }
 
         }
     })
