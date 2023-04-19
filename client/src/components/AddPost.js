@@ -7,9 +7,9 @@ import * as yup from "yup"
 function AddPost({user, updatePosts}) {
 
     const formSchema = yup.object().shape({
-        topic: yup.string().required("!"),
-        title: yup.string().required("!!"),
-        body: yup.string().required("!!!"),
+        topic: yup.string().required(""),
+        title: yup.string().required(""),
+        body: yup.string().required(""),
     })
     const formik = useFormik({
         initialValues:{
@@ -20,21 +20,21 @@ function AddPost({user, updatePosts}) {
         },
         
         validationSchema: formSchema,
-        onSubmit: (values) => {
-                fetch('/posts', { 
-                    method: "POST",
-                    headers: {
-                        "Content-Type":"application/json"                    
-                    },
-                    body: JSON.stringify(values)
-                })
-                .then(r => r.json())
-                .then(post => {
-                    updatePosts(post)
-                    alert("Post Added")
+        onSubmit: (values, actions) => {
+            fetch('/posts', { 
+                method: "POST",
+                headers: {
+                    "Content-Type":"application/json"                    
+                },
+                body: JSON.stringify(values)
+            })
+            .then(r => r.json())
+            .then(post => {
+                updatePosts(post)
+                alert("Post Added")
 
-                })
-
+            })
+        actions.resetForm();
         }
     })
 

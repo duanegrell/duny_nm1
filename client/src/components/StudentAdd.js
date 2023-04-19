@@ -25,7 +25,7 @@ export default function StudentAdd({updateUsers}) {
             password:""
         },
         validationSchema: formSchema,
-        onSubmit: (values) => {
+        onSubmit: (values, actions) => {
           if (signUp){
             fetch('/users', { 
                 method: "POST",
@@ -39,33 +39,18 @@ export default function StudentAdd({updateUsers}) {
                 updateUsers(user)
                 alert("Student Added")
                 // updateUser(user)
-                // history.push('/students')
+
             })
           }
-          // else {
-          //   fetch('/login', {
-          //       method: "POST",
-          //       headers: {
-          //           "Content-Type":"application/json"                    
-          //       },
-          //       body: JSON.stringify(values)
-          //   })
-          //   .then(r => r.json())
-          //   .then(user => {
-          //       updateUser(user)
-          //       history.push('/profile')
-          //   })
-          // }
-
+        actions.resetForm();
         }
     })
+
+    
  
   return (
     <> 
       {Object.values(formik.errors).map(error => <h2 style={{color:'red'}}> {error}</h2>)}
-      {/* <h2>Please Log in!</h2> */}
-      {/* <h2>{signUp?'Log in':'Register Student?'}</h2> */}
-      {/* <button onClick={handleClick}>{signUp?'Log In!':'Register Student!'}</button> */}
       <Form onSubmit={formik.handleSubmit}>
         <label>
           First Name
