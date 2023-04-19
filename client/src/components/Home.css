@@ -1,67 +1,64 @@
-Set the background color
+/* Set the background color and full height of the page */
 body {
-    background-color: #f8f1e8;
-  }
-  
-  /* Create the two columns */
-  .container {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+    background-color: #f2f2f2;
     height: 100vh;
-  }
-
-
-  .picture {
-    flex-basis: 0%;
-    background-image: url('https://qbi.uq.edu.au/files/24480/Neuroscience_image_QBI_iriswang-bloomingaxon.jpg');
-    background-size: cover;
+    margin: 0;
+    padding: 0;
   }
   
-  .content {
-    flex-basis: 50%;
+  /* Style the container for the title and images */
+  .title-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    padding: 0 2rem;
+    justify-content: center;
+    height: 100%;
+    text-align: center; /* center the text */
   }
   
   /* Style the title */
-  h1 {
-    font-size: 3rem;
+  .title {
+    font-size: 6rem;
     font-weight: bold;
-    text-align: center;
-    margin-bottom: 1rem;
+    color: #333;
+    margin-bottom: 3rem;
   }
   
-  /* Style the login button */
-  button {
-    padding: 1rem 2rem;
-    font-size: 1.5rem;
-    background-color: #3d3d3d;
-    color: #ffffff;
-    border: none;
-    border-radius: 0.5rem;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #2a2a2a;
-  }
-  
-  /* Style the top line with the school's name */
-  .top-line {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2rem;
-    background-color: #3d3d3d;
-    color: #ffffff;
-    font-size: 1rem;
+  /* Style the container for the images */
+  .image-container {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    margin: 0 auto;
+    max-width: 1200px;
   }
+  
+  /* Style the individual images */
+  .image {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    margin: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  /* Add a hover effect to the images */
+  .image:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Media query for smaller screens */
+  @media screen and (max-width: 768px) {
+    .title {
+      font-size: 4rem;
+    }
+  
+    .image {
+      width: 200px;
+      height: 200px;
+    }
+  }
+  

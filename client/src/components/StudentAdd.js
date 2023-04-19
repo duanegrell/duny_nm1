@@ -5,10 +5,6 @@ import { useFormik } from "formik"
 import * as yup from "yup"
 
 export default function StudentAdd({updateUsers}) {
-    const [signUp, setSignUp] = useState(true)
-    const history = useHistory()
-
-    const handleClick = () => setSignUp((signUp) => !signUp)
 
     const formSchema = yup.object().shape({
         first_name: yup.string().required("FIRST NAME REQUIRED"),
@@ -26,7 +22,7 @@ export default function StudentAdd({updateUsers}) {
         },
         validationSchema: formSchema,
         onSubmit: (values, actions) => {
-          if (signUp){
+          
             fetch('/users', { 
                 method: "POST",
                 headers: {
@@ -41,7 +37,7 @@ export default function StudentAdd({updateUsers}) {
                 // updateUser(user)
 
             })
-          }
+          
         actions.resetForm();
         }
     })
@@ -60,21 +56,21 @@ export default function StudentAdd({updateUsers}) {
           Last Name
         </label>
         <input type='text' name='last_name' value={formik.values.last_name} onChange={formik.handleChange} />        
-        {signUp && (
+        
           <>
           <label>
             Email
           </label>
           <input type='text' name='email' value={formik.values.email} onChange={formik.handleChange} />
           </>
-        )}
+        
         <>
         <label>
           Password
         </label>
         <input type='text' name='password' value={formik.values.password} onChange={formik.handleChange} />
         </>
-        <input type='submit' value={signUp?'Register Student':'Log In!'} onSubmit={Object.values(formik.errors).map(error => <h2 style={{color:'red'}}> {error}</h2>)}/>
+        <input type='submit' value={'Register Student'} onSubmit={Object.values(formik.errors).map(error => <h2 style={{color:'red'}}> {error}</h2>)}/>
       </Form>
     </>
   )

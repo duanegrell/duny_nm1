@@ -38,7 +38,7 @@ export default function Authentication({updateUser, updateUsers}) {
             .then(r => r.json())
             .then(user => {
                 updateUsers(user)
-                updateUser(user)
+                // updateUser(user)
                 history.push('/profile')
             })
           }
